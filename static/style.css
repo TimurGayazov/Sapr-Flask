@@ -1,0 +1,28 @@
+*{
+    font-family: consolas;
+}
+
+body{
+    background: #1d1d1d;
+    color: AliceBlue;
+
+}
+
+.site_header{
+    margin-top:1%;
+    width:95%
+    margin: auto;
+}
+
+
+
+#header{
+    width:95%;
+    margin: auto;
+    border-radius:10px;
+    box-shadow: 0 0 15px #0D0D0D ;
+}
+
+.site_header a{
+    font-size: 150%;
+}
