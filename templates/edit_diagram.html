@@ -6,7 +6,7 @@ Edit | {{ table_name }}
 
 {% block content %}
 <div class="text-center">
-    <div class="main-block">
+    <div class="edit-block">
         <h1>Редактировать данные</h1>
         <hr>
         <br>
@@ -14,7 +14,7 @@ Edit | {{ table_name }}
             {% for row in table_data %}
             {% if row[4] == 'relationship' %}
             <input type="text" class="form-control" id="value_{{ row[0] }}" name="value_{{ row[0] }}"
-                   value="{{ row[1] }}" style="width:50%; margin:auto;"><br>
+                   value="{{ row[1] }}" style="width:40%; margin:auto; text-align:center;"><br>
             {% endif %}
             {% endfor %}
             <hr>

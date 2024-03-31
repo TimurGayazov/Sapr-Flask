@@ -96,7 +96,7 @@ def home_page():
             create_table(objects, filename=str_filename)
 
             return redirect(url_for('database_page'))
-    return render_template('index.html')
+    return render_template('home.html')
 
 
 @app.route('/database')
@@ -156,7 +156,7 @@ def edit_values(table_name):
     cursor.execute(f"SELECT * FROM {table_name}")
     table_data = cursor.fetchall()
     conn.close()
-    return render_template('edit.html', table_data=table_data, table_name=table_name)
+    return render_template('edit_diagram.html', table_data=table_data, table_name=table_name)
 
 
 @app.route('/update_values/<table_name>', methods=['POST'])
