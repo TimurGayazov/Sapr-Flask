@@ -26,17 +26,20 @@ def create_table(objects, filename):
                           value TEXT,
                           source TEXT,
                           target TEXT,
+                          description TEXT, 
                           type TEXT)''')
 
         connect.commit()
 
         for obj in objects:
-            if obj['source'] is not None and obj['target'] is not None:
-                cursor.execute(f"INSERT INTO {filename} (id, value, source, target, type) VALUES (?, ?, ?, ?, ?)",
-                               (obj['id'], obj['value'], obj['source'], obj['target'], 'relationship'))
-            else:
-                cursor.execute(f"INSERT INTO {filename} (id, value, source, target, type) VALUES (?, ?, ?, ?, ?)",
-                               (obj['id'], obj['value'], obj['source'], obj['target'], 'object'))
+            if obj['source'] is not None and obj['target'] is not None and len(obj['id']) > 2:
+                cursor.execute(
+                    f"INSERT INTO {filename} (id, value, source, target, description, type) VALUES (?, ?, ?, ?, ?, ?)",
+                    (obj['id'], obj['value'], obj['source'], obj['target'], '', 'relationship'))
+            elif obj['source'] is None and obj['target'] is None and len(obj['id']) > 2:
+                cursor.execute(
+                    f"INSERT INTO {filename} (id, value, source, target, description, type) VALUES (?, ?, ?, ?, ?, ?)",
+                    (obj['id'], obj['value'], obj['source'], obj['target'], '', 'object'))
         connect.commit()
     else:
         print('')
@@ -89,8 +92,8 @@ def home_page():
             filename = secure_filename(uploaded_file.filename)
             file_contents = uploaded_file.read().decode('utf-8')
             objects = parse_xml(file_contents)
-            full_filename = filename + str(time.time_ns())
-            file_path = os.path.join(app.config['UPLOAD_FOLDER'], full_filename)
+            full_filename = str(time.time_ns()) + filename
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             uploaded_file.save(file_path)
             str_filename = filename.split('.')[0]
             create_table(objects, filename=str_filename)
@@ -107,6 +110,9 @@ def database_page():
 
 @app.route('/delete_database/<filename>')
 def delete_database(filename):
+    file_path = f'uploads/{filename}.xml'
+    if os.path.exists(file_path):
+        os.remove(file_path)
     delete_table(filename)
     return redirect('/database')
 
@@ -149,6 +155,27 @@ def diagram_page(table_name):
     return render_template('diagram_page.html', table_name=table_name, table_data=table_data, diagramm=diagramm)
 
 
+@app.route('/data/<table_name>')
+def data_page(table_name):
+    table_data = get_table_data(table_name)
+    return render_template('data_page.html', table_name=table_name, table_data=table_data)
+
+
+@app.route('/term/<table_name>')
+def term(table_name):
+    terms = []
+    table_data = get_table_data(table_name)
+    for i in range(0, len(table_data)):
+        term = []
+        if table_data[i][1] is not None:
+            term.append(table_data[i][1])
+            term.append(table_data[i][4])
+        if term != []:
+            terms.append(term)
+
+    return render_template('term_page.html', table_name=table_name, table_data=table_data, terms=terms)
+
+
 @app.route('/edit/<table_name>', methods=['GET'])
 def edit_values(table_name):
     conn = sqlite3.connect(db_name)
@@ -170,6 +197,29 @@ def update_values(table_name):
             conn.commit()
             conn.close()
     return redirect(url_for('diagram_page', table_name=table_name))
+
+
+@app.route('/edit_term/<table_name>', methods=['GET'])
+def edit_term(table_name):
+    conn = sqlite3.connect(db_name)
+    cursor = conn.cursor()
+    cursor.execute(f"SELECT * FROM {table_name}")
+    table_data = cursor.fetchall()
+    conn.close()
+    return render_template('edit_term.html', table_data=table_data, table_name=table_name)
+
+
+@app.route('/update_description/<table_name>', methods=['POST'])
+def update_description(table_name):
+    for key, value in request.form.items():
+        if key.startswith('value_'):
+            row_id = key.split('_')[1]
+            conn = sqlite3.connect(db_name)
+            cursor = conn.cursor()
+            cursor.execute(f"UPDATE {table_name} SET description=? WHERE id=?", (value, row_id))
+            conn.commit()
+            conn.close()
+    return redirect(url_for('term', table_name=table_name))
 
 
 if __name__ == '__main__':

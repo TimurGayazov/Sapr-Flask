@@ -27,20 +27,24 @@ body{
     font-size: 150%;
 }
 
-.dev-info{
-    position: absolute;
-    top: 95%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding:1%;
-    width:95%;
-    margin:auto;
-    height: 60px;
-    margin-top:auto;
-    background-color: #212529;
-    border-radius:10px;
-    box-shadow: 0 0 15px #0D0D0D ;
+.content {
+    margin-bottom: 2%; /* Добавляем отступ снизу контента */
 }
+
+.dev-info {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 95%;
+    padding: 1%;
+    margin-bottom:1%;
+    height: 62px; /* Высота футера */
+    background-color: #212529;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #0D0D0D;
+}
+
 
 .main-block{
 position: absolute;
@@ -90,21 +94,22 @@ position: absolute;
     box-shadow: 0 0 15px #0D0D0D;
 }
 
-.table-block:hover{
+.data-block{
 position: absolute;
     top: 45%;
     left: 50%;
     transform: translate(-50%, -50%);
     padding:1%;
-    width:50%;
+    width:60%;
     margin:auto;
     height: auto;
     margin-top:2%;
     margin-bottom:2%;
     background-color: #212529;
     border-radius:10px;
-    box-shadow: 0 0 25px #0D0D0D;
+    box-shadow: 0 0 15px #0D0D0D;
 }
+
 
 .edit-block{
 position: absolute;
@@ -122,34 +127,19 @@ position: absolute;
     box-shadow: 0 0 15px #0D0D0D;
 }
 
-.edit-block:hover{
-position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding:1%;
-    width:40%;
-    margin:auto;
-    height: auto;
-    margin-top:2%;
-    margin-bottom:2%;
-    background-color: #212529;
-    border-radius:10px;
-    box-shadow: 0 0 25px #0D0D0D;
-}
 
-.successful_download{
-    padding:1%;
-    width:50%;
-    margin:auto;
-    height: auto;
-    margin-top:2%;
-    margin-bottom:2%;
-    background-color: #212529;
-    border-radius:10px;
-    box-shadow: 0 0 15px #0D0D0D ;
-}
 
+.edit-term-block {
+    padding: 1%;
+    width: 40%;
+    margin: auto;
+    height: auto;
+    margin-top: 2%;
+    margin-bottom: 62px; /* Высота футера + 2% отступа */
+    background-color: #212529;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #0D0D0D;
+}
 
 
 ::-webkit-scrollbar-thumb {

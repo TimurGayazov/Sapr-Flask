@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ table_name }}
+{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <div class="data-block">
+        <h1>Таблица {{ table_name }}</h1>
+        <table class="table table-bordered table-dark">
+            <thead>
+            <tr>
+                <th scope="col"><h4>id</h4></th>
+                <th scope="col"><h4>Value</h4></th>
+                <th scope="col"><h4>id_1</h4></th>
+                <th scope="col"><h4>id_2</h4></th>
+                <th scope="col"><h4>description</h4></th>
+                <th scope="col"><h4>type</h4></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for el in table_data %}
+            <tr>
+                <th scope="row">{{ el[0] }}</th>
+                <td>{{ el[1] }}</td>
+                <td>{{ el[2] }}</td>
+                <td>{{ el[3] }}</td>
+                <td>{{ el[4] }}</td>
+                <td>{{ el[5] }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -6,18 +6,32 @@ Edit | {{ table_name }}
 
 {% block content %}
 <div class="text-center">
-    <div class="edit-block">
+    <div class="edit-term-block">
         <h1>Редактировать данные</h1>
         <hr>
         <br>
-        <form action="{{ url_for('update_values', table_name=table_name) }}" method="POST">
-            {% for row in table_data %}
-            {% if row[5] == 'relationship' %}
-            <input type="text" class="form-control" id="value_{{ row[0] }}" name="value_{{ row[0] }}"
-                   value="{{ row[1] }}" style="width:40%; margin:auto; text-align:center;"><br>
-            {% endif %}
-            {% endfor %}
-            <hr>
+        <form action="{{ url_for('update_description', table_name=table_name) }}" method="POST">
+            <table class="table table-bordered table-dark">
+                <thead>
+                <tr>
+                    <th scope="col"><h3>Термин</h3></th>
+                    <th scope="col"><h3>Описание</h3></th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for row in table_data %}
+                {% if row[1] != '' %}
+                <tr>
+                    <th scope="row">{{ row[1] }}</th>
+                    <td><input type="text" class="form-control" id="value_{{ row[0] }}" name="value_{{ row[0] }}"
+                               value="{{ row[4] }}" style="width:40%; margin:auto; text-align:center;"></td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+
+                </tbody>
+            </table>
             <button type="submit" class="btn btn-outline-light">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
                      class="bi bi-arrow-repeat" viewBox="0 0 16 16">
@@ -28,7 +42,9 @@ Edit | {{ table_name }}
                 Обновить
             </button>
         </form>
+        <hr>
     </div>
-
 </div>
+<br>
+
 {% endblock %}
