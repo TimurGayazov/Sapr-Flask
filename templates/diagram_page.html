@@ -7,35 +7,6 @@
 {% block content %}
 <div class="text-center">
     <div class="table-block">
-        <div style="display:none;">
-            <h1>Таблица {{ table_name }}</h1>
-            <table class="table table-bordered table-dark">
-                <thead>
-                <tr>
-                    <th scope="col"><h3>id</h3></th>
-                    <th scope="col"><h3>Value</h3></th>
-                    <th scope="col"><h3>id1</h3></th>
-                    <th scope="col"><h3>id2</h3></th>
-                    <th scope="col"><h3>type</h3></th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for el in table_data %}
-                <tr>
-                    <th scope="row">{{ el[0] }}</th>
-                    <td>{{ el[1] }}</td>
-                    <td>{{ el[2] }}</td>
-                    <td>{{ el[3] }}</td>
-                    <td>{{ el[4] }}</td>
-                </tr>
-                {% endfor %}
-
-
-                </tbody>
-            </table>
-
-            {{table_data[3]}}
-        </div>
         <div class="text-center">
             <h2>Связи между объектами
                 <a href="{{ url_for('edit_values', table_name=table_name) }}"
@@ -48,10 +19,9 @@
             <hr>
             {% for d in diagramm %}
             <div class="d-flex  justify-content-between">
-                <div class="p-2 bd-highlight"><h4 style="border: 1px solid white;border-radius:10px; padding: 5px;">
-                    {{d[0]}}</h4></div>
+                <div class="p-2 bd-highlight"><a style="border: 1px solid white;border-radius:10px; padding: 5px; color:white; text-decoration: none;" href="/entity_view/{{ table_name }}/{{ d[3] }}">{{d[0]}}</a></div>
                 <div class="p-2 bd-highlight"><h4>------ {{d[1]}} ----></h4></div>
-                <div class="p-2 bd-highlight" style="border: 1px solid white; border-radius:10px;"><h4>{{d[2]}}</h4>
+                <div class="p-2 bd-highlight"><a style="border: 1px solid white;border-radius:10px; padding: 5px; color:white; text-decoration: none;" href="/entity_view/{{ table_name }}/{{ d[4] }}">{{d[2]}}</a>
                 </div>
             </div>
             <hr>

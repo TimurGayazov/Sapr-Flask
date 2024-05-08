@@ -131,8 +131,10 @@ def del_data():
 @app.route('/diagram_page/<table_name>')
 def diagram_page(table_name):
     diagramm = []
+    id_diagram = []
     table_data = get_table_data(table_name)
     for i in range(0, len(table_data)):
+        id_one = []
         rel = []
         start_point = ''
         end_point = ''
@@ -141,6 +143,8 @@ def diagram_page(table_name):
             start_point = table_data[i][2]
             end_point = table_data[i][3]
             val = table_data[i][1]
+            id_one.append(start_point)
+            id_one.append(end_point)
 
             for j in range(0, len(table_data)):
                 if table_data[j][0] == start_point:
@@ -149,10 +153,52 @@ def diagram_page(table_name):
             for j in range(0, len(table_data)):
                 if table_data[j][0] == end_point:
                     rel.append(table_data[j][1])
-
+            rel.append(start_point)
+            rel.append(end_point)
             diagramm.append(rel)
+            id_diagram.append(id_one)
 
-    return render_template('diagram_page.html', table_name=table_name, table_data=table_data, diagramm=diagramm)
+    return render_template('diagram_page.html', table_name=table_name, table_data=table_data, diagramm=diagramm, id_diagram=id_diagram)
+
+
+@app.route('/entity_view/<table_name>/<entity_id>')
+def entity_view(table_name, entity_id):
+    relations_dict = {'Наследование': ['Родитель для', 'Наследник от'], 'Атрибуты': ['Имеет атрибут', 'Атрибут для']}
+    table_data = get_table_data(table_name)
+    all_entity = []
+    for i in range(0, len(table_data)):
+        one_entity = []
+        if entity_id == table_data[i][2]:
+            first = table_data[i][2] # сурс
+            if table_data[i][1] in relations_dict:
+                second = relations_dict[table_data[i][1]][0]
+            else:
+                second = table_data[i][1] # тип связи
+            third = table_data[i][3] # таргет
+            for j in range(0, len(table_data)):
+                if table_data[j][0] == first:
+                    one_entity.append(table_data[j][1])
+            one_entity.append(second)
+            for j in range(0, len(table_data)):
+                if table_data[j][0] == third:
+                    one_entity.append(table_data[j][1])
+            all_entity.append(one_entity)
+        elif entity_id == table_data[i][3]:
+            first = table_data[i][3]  # таргет
+            if table_data[i][1] in relations_dict:
+                second = relations_dict[table_data[i][1]][1]
+            else:
+                second = table_data[i][1]  # тип связи
+            third = table_data[i][2]  # сурс
+            for j in range(0, len(table_data)):
+                if table_data[j][0] == first:
+                    one_entity.append(table_data[j][1])
+            one_entity.append(second)
+            for j in range(0, len(table_data)):
+                if table_data[j][0] == third:
+                    one_entity.append(table_data[j][1])
+            all_entity.append(one_entity)
+    return render_template('entity_view.html', all_entity=all_entity)
 
 
 @app.route('/data/<table_name>')
@@ -220,6 +266,15 @@ def update_description(table_name):
             conn.commit()
             conn.close()
     return redirect(url_for('term', table_name=table_name))
+
+
+@app.route('/relationshiptable', methods=['GET'])
+def relationshiptable():
+    conn = sqlite3.connect(db_name)
+    cursor = conn.cursor()
+    cursor.execute(f"SELECT * FROM relationname")
+    table_data = cursor.fetchall()
+    conn.close()
 
 
 if __name__ == '__main__':
