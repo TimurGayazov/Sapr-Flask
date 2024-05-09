@@ -8,13 +8,15 @@
 <div class="text-center">
     <div class="table-block">
         <div class="text-center">
-            <h2>Связи между объектами</h2>
+            <h2>Связи с сущностью "{{ all_entity[0][0] }}"</h2>
+            <hr>
             {% for entity in all_entity %}
             <div class="d-flex  justify-content-between">
-                <div class="p-2 bd-highlight"><h4 style="border: 1px solid white;border-radius:10px; padding: 5px;">{{entity[0]}}</h4></div>
+                <div class="p-2 bd-highlight"><h4 style="border: 1px solid white;border-radius:10px; padding: 10px;">{{entity[0]}}</h4></div>
                 <div class="p-2 bd-highlight"><h4>------ {{entity[1]}} ----></h4></div>
-                <div class="p-2 bd-highlight"><h4 style="border: 1px solid white;border-radius:10px; padding: 5px;">{{entity[2]}}</h4></div>
+                <div class="p-2 bd-highlight"><h4 style="border: 1px solid white;border-radius:10px; padding: 10px;">{{entity[2]}}</h4></div>
             </div>
+            <hr>
             {% endfor %}
             <!--            {{all_entity}}-->
         </div>

@@ -131,10 +131,10 @@ def del_data():
 @app.route('/diagram_page/<table_name>')
 def diagram_page(table_name):
     diagramm = []
-    id_diagram = []
+
     table_data = get_table_data(table_name)
     for i in range(0, len(table_data)):
-        id_one = []
+
         rel = []
         start_point = ''
         end_point = ''
@@ -143,8 +143,6 @@ def diagram_page(table_name):
             start_point = table_data[i][2]
             end_point = table_data[i][3]
             val = table_data[i][1]
-            id_one.append(start_point)
-            id_one.append(end_point)
 
             for j in range(0, len(table_data)):
                 if table_data[j][0] == start_point:
@@ -156,9 +154,8 @@ def diagram_page(table_name):
             rel.append(start_point)
             rel.append(end_point)
             diagramm.append(rel)
-            id_diagram.append(id_one)
 
-    return render_template('diagram_page.html', table_name=table_name, table_data=table_data, diagramm=diagramm, id_diagram=id_diagram)
+    return render_template('diagram_page.html', table_name=table_name, table_data=table_data, diagramm=diagramm)
 
 
 @app.route('/entity_view/<table_name>/<entity_id>')
@@ -169,12 +166,12 @@ def entity_view(table_name, entity_id):
     for i in range(0, len(table_data)):
         one_entity = []
         if entity_id == table_data[i][2]:
-            first = table_data[i][2] # сурс
+            first = table_data[i][2]  # сурс
             if table_data[i][1] in relations_dict:
                 second = relations_dict[table_data[i][1]][0]
             else:
-                second = table_data[i][1] # тип связи
-            third = table_data[i][3] # таргет
+                second = table_data[i][1]  # тип связи
+            third = table_data[i][3]  # таргет
             for j in range(0, len(table_data)):
                 if table_data[j][0] == first:
                     one_entity.append(table_data[j][1])
