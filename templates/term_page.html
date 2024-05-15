@@ -20,14 +20,14 @@
                 <thead>
                 <tr>
                     <th scope="col"><h3>Термин</h3></th>
-                    <th scope="col"><h3>Описание</h3></th>
+                    <th scope="col"><h3>Определение</h3></th>
 
                 </tr>
                 </thead>
                 <tbody>
                 {% for term in terms %}
                 <tr>
-                    <th scope="row">{{ term[0] }}</th>
+                    <th scope="row"><a href="/entity_view/{{ table_name }}/{{ term[2] }}" style="text-decoration: none; color:white; font-size: 120%">{{ term[0] }}</a></th>
                     <td>{{ term[1] }}</td>
                 </tr>
                 {% endfor %}

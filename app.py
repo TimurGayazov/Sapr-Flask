@@ -163,6 +163,10 @@ def entity_view(table_name, entity_id):
     relations_dict = {'Наследование': ['Родитель для', 'Наследник от'], 'Атрибуты': ['Имеет атрибут', 'Атрибут для']}
     table_data = get_table_data(table_name)
     all_entity = []
+    desc = []
+    for u in range(0, len(table_data)):
+        if entity_id == table_data[u][0]:
+            desc.append(table_data[u][4])
     for i in range(0, len(table_data)):
         one_entity = []
         if entity_id == table_data[i][2]:
@@ -179,6 +183,8 @@ def entity_view(table_name, entity_id):
             for j in range(0, len(table_data)):
                 if table_data[j][0] == third:
                     one_entity.append(table_data[j][1])
+                    one_entity.append(table_data[j][0])
+
             all_entity.append(one_entity)
         elif entity_id == table_data[i][3]:
             first = table_data[i][3]  # таргет
@@ -194,8 +200,10 @@ def entity_view(table_name, entity_id):
             for j in range(0, len(table_data)):
                 if table_data[j][0] == third:
                     one_entity.append(table_data[j][1])
+                    one_entity.append(table_data[j][0])
+
             all_entity.append(one_entity)
-    return render_template('entity_view.html', all_entity=all_entity)
+    return render_template('entity_view.html', all_entity=all_entity, desc=desc)
 
 
 @app.route('/data/<table_name>')
@@ -210,9 +218,11 @@ def term(table_name):
     table_data = get_table_data(table_name)
     for i in range(0, len(table_data)):
         term = []
-        if table_data[i][1] is not None:
+        if table_data[i][1] is not None and table_data[i][5] != 'relationship':
             term.append(table_data[i][1])
             term.append(table_data[i][4])
+            term.append(table_data[i][0])
+
         if term != []:
             terms.append(term)
 
@@ -265,13 +275,6 @@ def update_description(table_name):
     return redirect(url_for('term', table_name=table_name))
 
 
-@app.route('/relationshiptable', methods=['GET'])
-def relationshiptable():
-    conn = sqlite3.connect(db_name)
-    cursor = conn.cursor()
-    cursor.execute(f"SELECT * FROM relationname")
-    table_data = cursor.fetchall()
-    conn.close()
 
 
 if __name__ == '__main__':

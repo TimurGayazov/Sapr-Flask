@@ -10,11 +10,13 @@
         <div class="text-center">
             <h2>Связи с сущностью "{{ all_entity[0][0] }}"</h2>
             <hr>
+            <h2>{{ desc[0] }}</h2>
+            <hr>
             {% for entity in all_entity %}
             <div class="d-flex  justify-content-between">
                 <div class="p-2 bd-highlight"><h4 style="border: 1px solid white;border-radius:10px; padding: 10px;">{{entity[0]}}</h4></div>
                 <div class="p-2 bd-highlight"><h4>------ {{entity[1]}} ----></h4></div>
-                <div class="p-2 bd-highlight"><h4 style="border: 1px solid white;border-radius:10px; padding: 10px;">{{entity[2]}}</h4></div>
+                <div class="p-2 bd-highlight"><a href="{{ entity[3] }}" style="border: 1px solid white;border-radius:10px; padding: 10px; color:white; text-decoration: none; font-size:150%;">{{entity[2]}}</a></div>
             </div>
             <hr>
             {% endfor %}
